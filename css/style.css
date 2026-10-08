@@ -551,7 +551,7 @@ main { display: block; }
 }
 
 /* =========================================================
-   WHYNOT overrides
+   BEST STORE overrides
    ========================================================= */
 :root { --amber: #e8862a; }
 /* hexagon motif from the store walls */
@@ -568,18 +568,19 @@ body::before {
     radial-gradient(50vw 50vh at 0% 100%, rgba(212,175,55,.07), transparent 70%),
     var(--bg);
 }
-.logo__mk { font-size: 30px; letter-spacing: .12em; padding-left: .12em; }
+.logo__mk { font-size: 26px; letter-spacing: .1em; padding-left: .1em; white-space: nowrap; }
 .logo__lux { letter-spacing: .5em; padding-left: .5em; font-size: 9px; }
 .footer .logo__lux { padding-left: 0; letter-spacing: .32em; }
-@media (max-width: 1060px) { .logo__mk { font-size: 22px; } .logo__lux { font-size: 8px; } }
+@media (max-width: 1060px) { .logo__mk { font-size: 18px; } .logo__lux { font-size: 8px; } }
 
-.intro__mk { font-size: clamp(54px, 13vw, 132px); letter-spacing: .5em; }
+.intro__mk { font-size: clamp(40px, 10vw, 110px); letter-spacing: .3em; white-space: nowrap; }
 @keyframes mkIn { to { opacity: 1; transform: none; letter-spacing: .08em; } }
 
 .cat-grid--3 { grid-template-columns: repeat(3, 1fr); }
 .cat-grid--3 .cat { aspect-ratio: 4 / 5; }
 @media (max-width: 960px) { .cat-grid--3 { grid-template-columns: 1fr 1fr; } .cat-grid--3 .cat:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 11; } }
-.brand-grid { grid-template-columns: repeat(4, 1fr); }
+.brand-grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 960px) { .brand-grid { grid-template-columns: 1fr; } }
 
 .hero__tap { position: absolute; z-index: 3; top: 30px; right: 74px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-light); background: rgba(0,0,0,.45); padding: 5px 10px; border: 1px solid var(--line); animation: tapHint 2.4s ease-in-out infinite; pointer-events: none; transition: opacity .4s; }
 .hero__frame:has(.sound.is-on) .hero__tap { opacity: 0; animation: none; }

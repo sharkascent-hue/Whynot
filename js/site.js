@@ -1,5 +1,5 @@
 /* =========================================================
-   WHYNOT — shared layout + page logic
+   BEST STORE — shared layout + page logic
    Every page loads: config.js, products.js, site.js
    and sets <body data-page="..."> to pick its logic below.
    ========================================================= */
@@ -11,7 +11,7 @@
   const body = document.body;
   const page = body.dataset.page;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const IG = `https://www.instagram.com/${STORE.instagram}`;
+  const IG = STORE.instagram ? `https://www.instagram.com/${STORE.instagram}` : `https://wa.me/${STORE.whatsapp}`;
   const WA = STORE.whatsapp ? `https://wa.me/${STORE.whatsapp}` : "";
   const TG = STORE.telegram ? `https://t.me/${STORE.telegram}` : "";
   const params = new URLSearchParams(location.search);
@@ -55,14 +55,14 @@
 
   body.insertAdjacentHTML("afterbegin", `
     <header class="header" id="header">
-      <div class="announce"><a href="${WA}" target="_blank" rel="noopener">${esc(STORE.deliveryNote)}<em class="hide-sm" style="font-style:normal"> · Worldwide shipping</em> <span>Order on WhatsApp</span></a></div>
+      <div class="announce"><a href="${WA}" target="_blank" rel="noopener">${esc(STORE.deliveryNote)}<em class="hide-sm" style="font-style:normal"> · Men · Ladies · Kids</em> <span>Order on WhatsApp</span></a></div>
       <div class="bar">
         <div class="bar__inner">
           <div style="display:flex;align-items:center;gap:6px">
             <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
             <nav class="nav" aria-label="Main">${navHTML}</nav>
           </div>
-          <a href="index.html" class="logo" aria-label="WhyNot home"><span class="logo__mk">WHYNOT</span><span class="logo__lux">BODRUM</span></a>
+          <a href="index.html" class="logo" aria-label="Best Store Marmaris home"><span class="logo__mk">BEST STORE</span><span class="logo__lux">MARMARIS</span></a>
           <div class="tools">
             <button class="icon-btn" id="searchBtn" aria-label="Search">${ICON.search}</button>
             <button class="icon-btn hide-sm" id="wishBtn" aria-label="Wishlist">${ICON.heart}<span class="badge" id="wishCount">0</span></button>
@@ -73,7 +73,7 @@
     </header>
     <div class="menu" id="menu">
       <nav>${navLinks.map(([href, label]) => `<a href="${href}">${label}</a>`).join("")}</nav>
-      <div class="menu__foot"><a href="${IG}" target="_blank" rel="noopener">Instagram — @${STORE.instagram}</a><span style="color:var(--muted)">${esc(STORE.city)}</span></div>
+      <div class="menu__foot"><a href="${WA}" target="_blank" rel="noopener">WhatsApp — ${esc(STORE.phone)}</a><span style="color:var(--muted)">${esc(STORE.city)}</span></div>
     </div>
     <div class="search" id="search" role="dialog" aria-label="Search">
       <button class="search__close" id="searchClose" aria-label="Close">&times;</button>
@@ -87,13 +87,13 @@
     <footer class="footer">
       <div class="container footer__grid">
         <div class="footer__brand">
-          <a href="index.html" class="logo"><span class="logo__mk">WHYNOT</span><span class="logo__lux">BODRUM · SINCE ${STORE.since}</span></a>
-          <p style="max-width:320px;margin:0 0 14px">Designer clothes and shoes in Bodrum since ${STORE.since}. Visit the store or order on WhatsApp or Telegram — we ship ${esc(STORE.delivery)}.</p>
-          <a class="link" href="${IG}" target="_blank" rel="noopener">@${STORE.instagram}</a>
+          <a href="index.html" class="logo"><span class="logo__mk">BEST STORE</span><span class="logo__lux">MARMARIS</span></a>
+          <p style="max-width:320px;margin:0 0 14px">Designer jackets for men, ladies and kids in Marmaris. Visit the store or order on WhatsApp — we deliver ${esc(STORE.delivery)} in 7–12 days.</p>
+          <a class="link" href="${STORE.whatsapp ? WA : IG}" target="_blank" rel="noopener">${STORE.phone || "WhatsApp"}</a>
         </div>
         <div><h4>Shop</h4><ul>${CATEGORIES.map(c => `<li><a href="shop.html?cat=${c.id}">${c.name}</a></li>`).join("")}</ul></div>
         <div><h4>Brands</h4><ul>${BRANDS.map(b => `<li><a href="shop.html?brand=${b.id}">${b.name}</a></li>`).join("")}</ul></div>
-        <div><h4>WhyNot</h4><ul>
+        <div><h4>Best Store</h4><ul>
           <li><a href="about.html">About Us</a></li>
           <li><a href="contact.html">Contact Us</a></li>
           <li><a href="contact.html#delivery">Worldwide Shipping</a></li>
@@ -103,7 +103,7 @@
           <li>${esc(STORE.city)}</li>
         </ul></div>
       </div>
-      <div class="container footer__bottom"><p>© ${new Date().getFullYear()} WhyNot Bodrum. All rights reserved.</p><p>Bodrum, Türkiye · ${esc(STORE.deliveryNote)}</p></div>
+      <div class="container footer__bottom"><p>© ${new Date().getFullYear()} Best Store Marmaris. All rights reserved.</p><p>Marmaris, Türkiye · ${esc(STORE.deliveryNote)}</p></div>
     </footer>
     <div class="overlay" id="overlay"></div>
     <aside class="drawer" id="drawer" aria-label="Basket">
@@ -113,7 +113,7 @@
         <div class="drawer__total"><span>Total</span><strong id="bagTotal">₺0</strong></div>
         ${WA ? `<a class="btn btn--gold btn--block" id="orderWa" href="${WA}" target="_blank" rel="noopener"><span>Order on WhatsApp</span></a>` : ""}
         ${TG ? `<a class="btn btn--line btn--block" id="orderTg" href="${TG}" target="_blank" rel="noopener"><span>Order on Telegram</span></a>` : ""}
-        <a class="btn ${WA ? "btn--line" : "btn--gold"} btn--block" id="orderIg" href="${IG}" target="_blank" rel="noopener"><span>Order on Instagram</span></a>
+        ${STORE.instagram ? `<a class="btn btn--line btn--block" id="orderIg" href="${IG}" target="_blank" rel="noopener"><span>Order on Instagram</span></a>` : ""}
         <p class="drawer__note">We confirm price, size and shipping in the chat before you pay.</p>
       </div>
     </aside>
@@ -122,15 +122,15 @@
   /* ---------- intro (home page, once per visit) ---------- */
   if (page === "home") {
     let seen = false;
-    try { seen = sessionStorage.getItem("wn-intro") === "1"; sessionStorage.setItem("wn-intro", "1"); } catch { /* ignore */ }
+    try { seen = sessionStorage.getItem("bs-intro") === "1"; sessionStorage.setItem("bs-intro", "1"); } catch { /* ignore */ }
     if (!seen && !reduceMotion) {
       body.insertAdjacentHTML("afterbegin", `
         <div class="intro" aria-hidden="true">
           <div class="intro__half intro__half--l"></div><div class="intro__half intro__half--r"></div>
           <div class="intro__flare"></div>
           <div class="intro__stage"><div class="intro__logo">
-            <div class="intro__mk">WHYNOT</div>
-            <div class="intro__rule"><i></i><div class="intro__lux">${[..."BODRUM"].map(c => `<b>${c}</b>`).join("")}</div><i></i></div>
+            <div class="intro__mk">BEST STORE</div>
+            <div class="intro__rule"><i></i><div class="intro__lux">${[..."MARMARIS"].map(c => `<b>${c}</b>`).join("")}</div><i></i></div>
           </div></div>
         </div>`);
       document.documentElement.classList.add("locked");
@@ -207,20 +207,20 @@
   /* =========================================================
      WISHLIST + BASKET
      ========================================================= */
-  let wish = store.get("wn-wish", []);
+  let wish = store.get("bs-wish", []);
   const wishCount = $("#wishCount");
   const syncWish = () => { wishCount.textContent = wish.length; wishCount.classList.toggle("has", wish.length > 0); };
   function toggleWish(id) {
     const on = !wish.includes(id);
     wish = on ? [...wish, id] : wish.filter(x => x !== id);
-    store.set("wn-wish", wish);
+    store.set("bs-wish", wish);
     $$(`[data-wish="${id}"]`).forEach(b => b.classList.toggle("is-on", on));
     syncWish(); bump(wishCount);
     toast(on ? "Saved to your <b>wishlist</b>" : "Removed from your wishlist");
   }
   $("#wishBtn").addEventListener("click", () => toast(wish.length ? `<b>${wish.length}</b> saved ${wish.length === 1 ? "piece" : "pieces"}` : "Your wishlist is empty"));
 
-  let bag = store.get("wn-basket", []).filter(l => byId(l.id));
+  let bag = store.get("bs-basket", []).filter(l => byId(l.id));
   const bagCount = $("#bagCount"), bagItems = $("#bagItems"), bagTotal = $("#bagTotal"), bagFoot = $("#bagFoot");
   function addToBag(item) {
     item.key = [item.id, item.color, item.finish, item.size].join("|");
@@ -228,14 +228,14 @@
     if (line) line.qty += item.qty; else bag.push(item);
     saveBag(); bump(bagCount);
   }
-  function saveBag() { bag = bag.filter(l => l.qty > 0); store.set("wn-basket", bag); renderBag(); }
+  function saveBag() { bag = bag.filter(l => l.qty > 0); store.set("bs-basket", bag); renderBag(); }
   function orderText() {
     const lines = bag.map(l => {
       const p = byId(l.id);
       const opts = [l.color, l.finish, l.size && `Size ${l.size}`].filter(Boolean).join(", ");
       return `• ${brandOf(p.brand).name} ${p.name}${opts ? ` (${opts})` : ""} × ${l.qty}`;
     });
-    return `Hello WhyNot, I'd like to order:\n${lines.join("\n")}\nDelivery to: `;
+    return `Hello Best Store, I'd like to order:\n${lines.join("\n")}\nDelivery to: `;
   }
   function renderBag() {
     const n = bag.reduce((s, l) => s + l.qty, 0);
@@ -278,7 +278,7 @@
   $("#orderTg")?.addEventListener("click", () => {
     navigator.clipboard?.writeText(orderText()).then(() => toast("Order <b>copied</b> — paste it into our Telegram chat"), () => {});
   });
-  $("#orderIg").addEventListener("click", () => {
+  $("#orderIg")?.addEventListener("click", () => {
     navigator.clipboard?.writeText(orderText()).then(() => toast("Order <b>copied</b> — paste it into our Instagram messages"), () => {});
   });
 
@@ -403,7 +403,7 @@
           <div><h3>${b.name}</h3><p>${b.blurb}</p></div>
           <small>Shop ${b.name} →</small>
         </a>`).join("");
-      $("#instaGrid").innerHTML = INSTAGRAM.map(src => `<a href="${IG}" target="_blank" rel="noopener" aria-label="Instagram"><img src="${src}" alt="" loading="lazy"></a>`).join("");
+      if ($("#instaGrid")) $("#instaGrid").innerHTML = INSTAGRAM.map(src => `<a href="${IG}" target="_blank" rel="noopener" aria-label="Instagram"><img src="${src}" alt="" loading="lazy"></a>`).join("");
       startCountdown($("#miniCount"));
     },
 
@@ -418,9 +418,9 @@
         $$(".chip", chips).forEach(el => el.classList.toggle("is-active", el.dataset.cat === cat));
         sel.value = brand;
         $("#shopTitle").innerHTML = b ? `<span class="gold">${b.name}</span>` : c ? `${c.name.replace(/s$/, "")} <em>Collection</em>` : `The <em>Shop</em>`;
-        $("#shopLead").textContent = b ? b.blurb : c ? `${c.name} — in store in Bodrum and shipped ${STORE.delivery}.` : `Designer pieces for every season from ${BRANDS.length} of the world's top brands.`;
+        $("#shopLead").textContent = b ? b.blurb : c ? `${c.name} — in store in Marmaris and delivered ${STORE.delivery}.` : `Designer pieces for every season from ${BRANDS.length} of the world's top brands.`;
         $("#crumb").textContent = b ? b.name : c ? c.name : "All Products";
-        document.title = `${b ? b.name : c ? c.name : "Shop"} — WhyNot Bodrum`;
+        document.title = `${b ? b.name : c ? c.name : "Shop"} — Best Store Marmaris`;
         let list = PRODUCTS.filter(p => (cat === "all" || p.category === cat) && (brand === "all" || p.brand === brand));
         if (cat === "all" && brand === "all") list = mixed(list);
         $("#count").textContent = `${list.length} ${list.length === 1 ? "piece" : "pieces"}`;
@@ -451,7 +451,7 @@
       const b = brandOf(p.brand), c = catOf(p.category);
       const colors = p.colors || [], sizes = sizesOf(p);
       let colorI = 0, finishI = 0, size = "", qty = 1, imgI = 0;
-      document.title = `${b.name} ${p.name} — WhyNot Bodrum`;
+      document.title = `${b.name} ${p.name} — Best Store Marmaris`;
       $("#crumbs").innerHTML = `<a href="index.html">Home</a><span>/</span><a href="shop.html?cat=${c.id}">${c.name}</a><span>/</span><a href="shop.html?brand=${b.id}">${b.name}</a>`;
       $("#pdp").innerHTML = `
         <div class="gallery reveal">
@@ -465,7 +465,7 @@
           <a class="info__brand" href="shop.html?brand=${b.id}">${b.name}</a>
           <h1>${p.name}</h1>
           <div class="info__price">${priceText(p)}</div>
-          <p class="info__desc">${p.description || `${b.blurb} Try it in our Bodrum store or order on WhatsApp — we ship ${STORE.delivery}.`}</p>
+          <p class="info__desc">${p.description || `${b.blurb} Try it in our Marmaris store or order on WhatsApp — we deliver ${STORE.delivery}.`}</p>
           ${colors.length ? `<div class="opt"><div class="opt__label"><span>Colour</span><b id="colorName">${colors[0].name}</b></div>
             <div class="swatches">${colors.map((x, i) => `<button class="dot${i ? "" : " is-active"}" style="background:${swatch(x.name)}" data-color="${i}" aria-label="${x.name}" title="${x.name}"></button>`).join("")}</div></div>` : ""}
           ${p.finishes ? `<div class="opt"><div class="opt__label"><span>Finish</span><b id="finishName">${p.finishes[0]}</b></div>
@@ -479,8 +479,8 @@
           <a class="ask" href="${WA || IG}" target="_blank" rel="noopener">Ask about this item on ${WA ? "WhatsApp" : "Instagram"}</a>
           <div class="acc">
             <details open><summary>Details</summary><p>${b.name} · ${c.name}${colors.length ? ` · Available in ${colors.map(x => x.name).join(", ")}` : ""}${p.finishes ? ` · ${p.finishes.join(" or ")} finish` : ""}.</p></details>
-            <details><summary>Delivery</summary><p>We ship ${STORE.delivery} with tracking — ${STORE.deliveryNote.toLowerCase()}. Send us your order and we'll confirm price, size and delivery time in the chat before you pay.</p></details>
-            <details><summary>Visit the Store</summary><p>Prefer to try it on? Visit WhyNot in ${STORE.city}. <a class="link" href="contact.html">Find us</a></p></details>
+            <details><summary>Delivery</summary><p>We deliver ${STORE.delivery} — usually in 7–12 days. Send us your order and we'll confirm price, size and delivery time in the chat before you pay.</p></details>
+            <details><summary>Visit the Store</summary><p>Prefer to try it on? Visit Best Store in ${STORE.city}. <a class="link" href="contact.html">Find us</a></p></details>
           </div>
         </div>`;
       const main = $("#mainImg");
@@ -549,17 +549,17 @@
       if (STORE.phone) lines.push(`<li>Phone: <a href="tel:${STORE.phone.replace(/\s/g, "")}">${esc(STORE.phone)}</a></li>`);
       if (STORE.email) lines.push(`<li>Email: <a href="mailto:${STORE.email}">${esc(STORE.email)}</a></li>`);
       if (TG) lines.push(`<li>Telegram: <a href="${TG}" target="_blank" rel="noopener">@${STORE.telegram}</a></li>`);
-      lines.push(`<li>Instagram: <a href="${IG}" target="_blank" rel="noopener">@${STORE.instagram}</a></li>`);
+      if (STORE.instagram) lines.push(`<li>Instagram: <a href="${IG}" target="_blank" rel="noopener">@${STORE.instagram}</a></li>`);
       if (STORE.facebook) lines.push(`<li>Facebook: <a href="https://www.facebook.com/${STORE.facebook}" target="_blank" rel="noopener">${STORE.facebook}</a></li>`);
       $("#talk").innerHTML = `<ul>${lines.join("")}</ul>`;
       $("#hours").innerHTML = STORE.hours.length
         ? `<table>${STORE.hours.map(([d, t]) => `<tr><td>${esc(d)}</td><td>${esc(t)}</td></tr>`).join("")}</table>`
-        : `<p>Message us on Instagram for today's opening hours.</p>`;
-      $("#map").innerHTML = `<iframe title="WhyNot on the map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=${encodeURIComponent(STORE.mapQuery)}&z=15&output=embed"></iframe>`;
+        : `<p>Message us on WhatsApp for today's opening hours.</p>`;
+      $("#map").innerHTML = `<iframe title="Best Store on the map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=${encodeURIComponent(STORE.mapQuery)}&z=15&output=embed"></iframe>`;
       $("#contactForm").addEventListener("submit", e => {
         e.preventDefault();
         const f = new FormData(e.target);
-        const text = `Hello WhyNot, my name is ${f.get("name")}.\n${f.get("message")}`;
+        const text = `Hello Best Store, my name is ${f.get("name")}.\n${f.get("message")}`;
         if (WA) { open(`${WA}?text=${encodeURIComponent(text)}`, "_blank", "noopener"); return; }
         navigator.clipboard?.writeText(text).finally(() => {
           toast("Message <b>copied</b> — paste it into our Instagram messages");

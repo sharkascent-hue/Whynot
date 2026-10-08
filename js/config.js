@@ -1,22 +1,19 @@
 /*
- * WhyNot — store details
+ * Best Store Marmaris — store details
  * Shown on the Contact page, footer and order buttons. Anything left "" is hidden.
  */
 const STORE = {
-  name: "WhyNot",
-  instagram: "whynot.bodrum2",
-  telegram: "whynotbodrum",       // t.me/whynotbodrum
-  whatsapp: "905368566172",       // international format, digits only
-  facebook: "WhynotBodrum1",
-  city: "Bodrum, Muğla, Türkiye",
-  address: "",                    // e.g. "Neyzen Tevfik Cd. No: 00, 48400 Bodrum/Muğla"
-  phone: "",
+  name: "Best Store",
+  instagram: "",                  // e.g. "beststoremarmaris"
+  telegram: "",
+  whatsapp: "905379761673",       // international format, digits only
+  facebook: "",
+  city: "Marmaris, Muğla, Türkiye",
+  address: "",
+  phone: "+90 537 976 16 73",
   email: "",
-  since: "2014",
-  hours: [
-    // ["Every day", "10:00 – 23:00"]
-  ],
-  mapQuery: "WhyNot Bodrum clothes shoes",
+  hours: [],
+  mapQuery: "Best Store Marmaris",
   delivery: "worldwide",
-  deliveryNote: "Free tracked shipping to the UK"
+  deliveryNote: "Worldwide delivery in 7–12 days"
 };
